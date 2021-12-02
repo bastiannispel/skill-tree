@@ -1,4 +1,4 @@
-import SkillTreeNode from '../src/skill-tree-node';
+import { SkillTreeNode } from '../src/skill-tree-node';
 
 let node: SkillTreeNode;
 
@@ -6,7 +6,7 @@ beforeEach(() => {
   node = new SkillTreeNode('Intelligence', 3);
 });
 
-describe('SkillPoints Tests', () => {
+describe('SKILLPOINTS', () => {
   describe('set skillPoints', () => {
     test('set skillPoints = maxSkillPoints', () => {
       node.skillPoints = 3;
@@ -49,7 +49,7 @@ describe('SkillPoints Tests', () => {
   });
 });
 
-describe('Adjacent Tests', () => {
+describe('ADJACENT', () => {
   test('set adjacent', () => {
     const node = new SkillTreeNode('', 2);
     node.adjacent = [node.id];

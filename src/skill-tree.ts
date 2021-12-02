@@ -1,8 +1,13 @@
-import SkillTreeNode from './skill-tree-node';
+import { SkillTreeNode, AdjacencyType } from './skill-tree-node';
 
 // type HashedTreeNodes = { [id: string]: SkillTreeNode };
 
-export default class SkillTree {
+export enum GraphType {
+  Directed,
+  Undirected
+}
+
+export class SkillTree {
   // private get and settable fields
   private _nodes: SkillTreeNode[];
   get nodes() {
@@ -17,9 +22,9 @@ export default class SkillTree {
   }
 
   // SkillTreeNode
-  getNode(id: string): SkillTreeNode | false {
+  getNode(id: string): SkillTreeNode | null {
     const node = this._nodes.find((x) => x.id === id);
-    return node ? node : false;
+    return node ? node : null;
   }
 
   addNode(node: SkillTreeNode): boolean {
@@ -36,5 +41,34 @@ export default class SkillTree {
       return true;
     }
     return false;
+  }
+
+  // TODO: Implement
+  // areAdjacent(idA: string, idB: string): AdjacencyType | false;
+
+  // Adjacent
+  addAdjacent(idA: string, idB: string, adjacencyType: AdjacencyType): boolean {
+    const nodeA = this.getNode(idA);
+    const nodeB = this.getNode(idB);
+
+    if (nodeA === null || nodeB === null) {
+      return false;
+    }
+
+    // TODO: Check if there is any adjacency between the nodes yet
+
+    switch (adjacencyType) {
+      case AdjacencyType.Unidirectional: {
+        nodeA.adjacent.push(idB);
+        return true;
+      }
+      case AdjacencyType.Bidirectional: {
+        nodeA.adjacent.push(idB);
+        nodeB.adjacent.push(idA);
+        return true;
+      }
+      default:
+        return false;
+    }
   }
 }

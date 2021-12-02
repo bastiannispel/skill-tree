@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export default class SkillTreeNode {
+export enum AdjacencyType {
+  Bidirectional,
+  Unidirectional
+}
+
+export class SkillTreeNode {
   // public readonly fields
   readonly id: string;
   readonly name: string;
