@@ -67,13 +67,9 @@ export class SkillTree {
   }
 
   // Adjacent
-  addAdjacency(
-    a: string | SkillTreeNode,
-    b: string | SkillTreeNode,
-    adjacencyType: AdjacencyType
-  ): boolean {
-    const nodeA = a instanceof SkillTreeNode ? a : this.getNode(a);
-    const nodeB = b instanceof SkillTreeNode ? b : this.getNode(b);
+  addAdjacency(a: string, b: string, adjacencyType: AdjacencyType): boolean {
+    const nodeA = this.getNode(a);
+    const nodeB = this.getNode(b);
 
     if (nodeA === null || nodeB === null) {
       return false;
@@ -92,5 +88,25 @@ export class SkillTree {
         return true;
       }
     }
+  }
+
+  removeAdjacency(a: string, b: string): boolean {
+    const nodeA = this.getNode(a);
+    const nodeB = this.getNode(b);
+
+    if (nodeA === null || nodeB === null) {
+      return false;
+    }
+
+    const indexA = nodeA.adjacent.indexOf(nodeB.id);
+    const indexB = nodeA.adjacent.indexOf(nodeA.id);
+
+    if (indexA > -1) {
+      nodeA.adjacent.splice(indexA, 1);
+    }
+    if (indexB > -1) {
+      nodeB.adjacent.splice(indexB, 1);
+    }
+    return true;
   }
 }

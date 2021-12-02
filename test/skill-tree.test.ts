@@ -14,12 +14,12 @@ describe('NODES', () => {
   });
 
   describe('add node', () => {
-    test('add new node', () => {
+    test('add node [new]', () => {
       const node = new SkillTreeNode('', 0);
       expect(tree.addNode(node)).toBeTruthy();
       expect(tree.nodes).toHaveLength(1);
     });
-    test('add existing node', () => {
+    test('add node [existing]', () => {
       const node = new SkillTreeNode('', 0);
       expect(tree.addNode(node)).toBeTruthy();
       expect(tree.addNode(node)).toBeFalsy();
@@ -28,25 +28,25 @@ describe('NODES', () => {
   });
 
   describe('get node', () => {
-    test('get existing node', () => {
+    test('get node [existing]', () => {
       const node = new SkillTreeNode('', 0);
       expect(tree.addNode(node)).not.toBeNull();
       expect(tree.getNode(node.id)).toBe(node);
     });
-    test('get non-existing node', () => {
+    test('get node [non-existing ]', () => {
       const node = new SkillTreeNode('', 0);
       expect(tree.getNode(node.id)).toBeNull();
     });
   });
 
   describe('remove node', () => {
-    test('remove existing node', () => {
+    test('remove node [existing]', () => {
       const node = new SkillTreeNode('', 0);
       expect(tree.addNode(node)).toBeTruthy();
       expect(tree.removeNode(node.id)).toBeTruthy();
       expect(tree.nodes).toHaveLength(0);
     });
-    test('remove non-existing node', () => {
+    test('remove node [non-existing]', () => {
       const node = new SkillTreeNode('', 0);
       expect(tree.removeNode(node.id)).toBeFalsy();
       expect(tree.nodes).toHaveLength(0);
@@ -68,65 +68,53 @@ describe('ADJACENT', () => {
     test('are not adjacent [node, node]', () => {
       expect(tree.areAdjacent(nodeA, nodeB)).toBeFalsy();
     });
-    test('are not adjacent [node, ""]', () => {
+    test('are not adjacent [node, invalidString]', () => {
       expect(tree.areAdjacent(nodeA, '')).toBeFalsy();
     });
-
-    describe('unidirectional adjacent', () => {
+    test('are adjacent [unidirectional]', () => {
       const adjacencyType = AdjacencyType.Unidirectional;
-
-      beforeEach(() => {
-        tree.addAdjacency(nodeA, nodeB, adjacencyType);
-      });
-
-      test('are unidirectional adjacent [node, node]', () => {
-        expect(tree.areAdjacent(nodeA, nodeB)).toBe(adjacencyType);
-      });
-      test('are unidirectional adjacent [string, string]', () => {
-        expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBe(adjacencyType);
-      });
-      test('are unidirectional adjacent [node, string]', () => {
-        expect(tree.areAdjacent(nodeA, nodeB.id)).toBe(adjacencyType);
-      });
+      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA, nodeB.id)).toBe(adjacencyType);
     });
-
-    describe('bidirectional adjacent', () => {
+    test('are adjacent [bidirectional]', () => {
       const adjacencyType = AdjacencyType.Bidirectional;
-
-      beforeEach(() => {
-        tree.addAdjacency(nodeA, nodeB, adjacencyType);
-      });
-
-      test('are unidirectional adjacent [node, node]', () => {
-        expect(tree.areAdjacent(nodeA, nodeB)).toBe(adjacencyType);
-      });
-      test('are unidirectional adjacent [string, string]', () => {
-        expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBe(adjacencyType);
-      });
-      test('are unidirectional adjacent [node, string]', () => {
-        expect(tree.areAdjacent(nodeA, nodeB.id)).toBe(adjacencyType);
-      });
+      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB)).toBe(adjacencyType);
     });
   });
 
-  describe('add adjacent', () => {
-    test('add unidirectional adjacency', () => {
-      const adjacencyType = AdjacencyType.Unidirectional;
-      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
-      expect(tree.getNode(nodeA.id)?.adjacent).toContain(nodeB.id);
-      expect(tree.getNode(nodeB.id)?.adjacent).not.toContain(nodeA.id);
-    });
-    test('add bidirectional adjacency', () => {
-      const adjacencyType = AdjacencyType.Bidirectional;
-      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
-      expect(tree.getNode(nodeA.id)?.adjacent).toContain(nodeB.id);
-      expect(tree.getNode(nodeB.id)?.adjacent).toContain(nodeA.id);
-    });
-    test('add bidirectional adjacency with invalid id', () => {
+  describe('add adjacency', () => {
+    test('add adjacency [invalidID]', () => {
       const adjacencyType = AdjacencyType.Bidirectional;
       expect(tree.addAdjacency('', nodeB.id, adjacencyType)).toBeFalsy();
-      expect(tree.getNode(nodeA.id)?.adjacent).not.toContain(nodeB.id);
-      expect(tree.getNode(nodeB.id)?.adjacent).not.toContain(nodeA.id);
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeFalsy();
+    });
+    test('add adjacency [unidirectional]', () => {
+      const adjacencyType = AdjacencyType.Unidirectional;
+      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBe(adjacencyType);
+    });
+    test('add adjacency [bidirectional]', () => {
+      const adjacencyType = AdjacencyType.Bidirectional;
+      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBe(adjacencyType);
+    });
+  });
+
+  describe('remove adjacency', () => {
+    test('remove adjacency [unidirectional]', () => {
+      const adjacencyType = AdjacencyType.Unidirectional;
+      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeTruthy();
+      expect(tree.removeAdjacency(nodeA.id, nodeB.id)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeFalsy();
+    });
+    test('remove adjacency [bidirectional]', () => {
+      const adjacencyType = AdjacencyType.Bidirectional;
+      expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeTruthy();
+      expect(tree.removeAdjacency(nodeA.id, nodeB.id)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeFalsy();
     });
   });
 });
