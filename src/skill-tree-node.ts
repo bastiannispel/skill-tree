@@ -1,23 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export default class SkillTreeNode {
+export enum AdjacencyType {
+  Bidirectional,
+  Unidirectional
+}
+
+export class SkillTreeNode {
   // public readonly fields
   readonly id: string;
   readonly name: string;
   readonly maxSkillPoints: number;
-  //   prerequisites: SkillTreeNode[];
-  //   adjacentSkills: SkillTreeNode[];
 
-  constructor(name: string, maxSkillPoints: number) {
-    this.id = uuidv4();
-    this.name = name;
-    this.maxSkillPoints = maxSkillPoints;
-  }
-
-  // private get and settable fields
+  // skillpoints
   private _skillPoints = 0;
-
-  // SkillPoints
   get skillPoints() {
     return this._skillPoints;
   }
@@ -30,18 +25,36 @@ export default class SkillTreeNode {
       this._skillPoints = value;
     }
   }
-  addSkillPoint() {
+
+  // adjacent
+  private _adjacent: string[] = [];
+  get adjacent() {
+    return this._adjacent;
+  }
+  set adjacent(value: string[]) {
+    this._adjacent = value;
+  }
+
+  constructor(name: string, maxSkillPoints: number) {
+    this.id = uuidv4();
+    this.name = name;
+    this.maxSkillPoints = maxSkillPoints;
+  }
+
+  addSkillPoint(): boolean {
     if (this.skillPoints === this.maxSkillPoints) {
-      return;
+      return false;
     } else {
       this.skillPoints += 1;
+      return true;
     }
   }
-  removeSkillPoint() {
+  removeSkillPoint(): boolean {
     if (this.skillPoints === 0) {
-      return;
+      return false;
     } else {
       this.skillPoints -= 1;
+      return true;
     }
   }
 }
