@@ -1,4 +1,4 @@
-import SkillTreeNode from "./skill-tree-node";
+import SkillTreeNode from './skill-tree-node';
 
 export default class SkillTree {
   private _nodes: SkillTreeNode[];
