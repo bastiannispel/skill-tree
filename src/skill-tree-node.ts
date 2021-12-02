@@ -6,16 +6,8 @@ export default class SkillTreeNode {
   readonly name: string;
   readonly maxSkillPoints: number;
 
-  // private get and settable fields
+  // skillpoints
   private _skillPoints = 0;
-
-  constructor(name: string, maxSkillPoints: number) {
-    this.id = uuidv4();
-    this.name = name;
-    this.maxSkillPoints = maxSkillPoints;
-  }
-
-  // SkillPoints
   get skillPoints() {
     return this._skillPoints;
   }
@@ -28,18 +20,36 @@ export default class SkillTreeNode {
       this._skillPoints = value;
     }
   }
-  addSkillPoint() {
+
+  // adjacent
+  private _adjacent: string[] = [];
+  get adjacent() {
+    return this._adjacent;
+  }
+  set adjacent(value: string[]) {
+    this._adjacent = value;
+  }
+
+  constructor(name: string, maxSkillPoints: number) {
+    this.id = uuidv4();
+    this.name = name;
+    this.maxSkillPoints = maxSkillPoints;
+  }
+
+  addSkillPoint(): boolean {
     if (this.skillPoints === this.maxSkillPoints) {
-      return;
+      return false;
     } else {
       this.skillPoints += 1;
+      return true;
     }
   }
-  removeSkillPoint() {
+  removeSkillPoint(): boolean {
     if (this.skillPoints === 0) {
-      return;
+      return false;
     } else {
       this.skillPoints -= 1;
+      return true;
     }
   }
 }
