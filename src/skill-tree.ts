@@ -17,8 +17,9 @@ export default class SkillTree {
   }
 
   // SkillTreeNode
-  getNode(id: string): SkillTreeNode | undefined {
-    return this._nodes.find((x) => x.id === id);
+  getNode(id: string): SkillTreeNode | false {
+    const node = this._nodes.find((x) => x.id === id);
+    return node ? node : false;
   }
 
   addNode(node: SkillTreeNode): boolean {
