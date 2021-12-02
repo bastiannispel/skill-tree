@@ -43,32 +43,54 @@ export class SkillTree {
     return false;
   }
 
-  // TODO: Implement
-  // areAdjacent(idA: string, idB: string): AdjacencyType | false;
-
-  // Adjacent
-  addAdjacent(idA: string, idB: string, adjacencyType: AdjacencyType): boolean {
-    const nodeA = this.getNode(idA);
-    const nodeB = this.getNode(idB);
+  areAdjacent(
+    a: string | SkillTreeNode,
+    b: string | SkillTreeNode
+  ): AdjacencyType | false {
+    const nodeA = a instanceof SkillTreeNode ? a : this.getNode(a);
+    const nodeB = b instanceof SkillTreeNode ? b : this.getNode(b);
 
     if (nodeA === null || nodeB === null) {
       return false;
     }
 
-    // TODO: Check if there is any adjacency between the nodes yet
+    const adjacentToA = nodeB.adjacent.includes(nodeA.id);
+    const adjacentToB = nodeA.adjacent.includes(nodeB.id);
+
+    if (adjacentToA && adjacentToB) {
+      return AdjacencyType.Bidirectional;
+    } else if (adjacentToA || adjacentToB) {
+      return AdjacencyType.Unidirectional;
+    }
+
+    return false;
+  }
+
+  // Adjacent
+  addAdjacency(
+    a: string | SkillTreeNode,
+    b: string | SkillTreeNode,
+    adjacencyType: AdjacencyType
+  ): boolean {
+    const nodeA = a instanceof SkillTreeNode ? a : this.getNode(a);
+    const nodeB = b instanceof SkillTreeNode ? b : this.getNode(b);
+
+    if (nodeA === null || nodeB === null) {
+      return false;
+    }
+
+    // TODO: Check if there is already any adjacency between the nodes
 
     switch (adjacencyType) {
       case AdjacencyType.Unidirectional: {
-        nodeA.adjacent.push(idB);
+        nodeA.adjacent.push(nodeB.id);
         return true;
       }
       case AdjacencyType.Bidirectional: {
-        nodeA.adjacent.push(idB);
-        nodeB.adjacent.push(idA);
+        nodeA.adjacent.push(nodeB.id);
+        nodeB.adjacent.push(nodeA.id);
         return true;
       }
-      default:
-        return false;
     }
   }
 }
