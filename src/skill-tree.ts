@@ -67,9 +67,13 @@ export class SkillTree {
   }
 
   // Adjacent
-  addAdjacency(a: string, b: string, adjacencyType: AdjacencyType): boolean {
-    const nodeA = this.getNode(a);
-    const nodeB = this.getNode(b);
+  addAdjacency(
+    idA: string,
+    idB: string,
+    adjacencyType: AdjacencyType
+  ): boolean {
+    const nodeA = this.getNode(idA);
+    const nodeB = this.getNode(idB);
 
     if (nodeA === null || nodeB === null) {
       return false;
@@ -90,16 +94,16 @@ export class SkillTree {
     }
   }
 
-  removeAdjacency(a: string, b: string): boolean {
-    const nodeA = this.getNode(a);
-    const nodeB = this.getNode(b);
+  removeAdjacency(idA: string, idB: string): boolean {
+    const nodeA = this.getNode(idA);
+    const nodeB = this.getNode(idB);
 
     if (nodeA === null || nodeB === null) {
       return false;
     }
 
     const indexA = nodeA.adjacent.indexOf(nodeB.id);
-    const indexB = nodeA.adjacent.indexOf(nodeA.id);
+    const indexB = nodeB.adjacent.indexOf(nodeA.id);
 
     if (indexA > -1) {
       nodeA.adjacent.splice(indexA, 1);

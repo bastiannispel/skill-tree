@@ -102,17 +102,20 @@ describe('ADJACENT', () => {
   });
 
   describe('remove adjacency', () => {
+    test('remove adjacency [invalidID]', () => {
+      expect(tree.removeAdjacency('', nodeB.id)).toBeFalsy();
+    });
     test('remove adjacency [unidirectional]', () => {
       const adjacencyType = AdjacencyType.Unidirectional;
       expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
-      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBe(adjacencyType);
       expect(tree.removeAdjacency(nodeA.id, nodeB.id)).toBeTruthy();
       expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeFalsy();
     });
     test('remove adjacency [bidirectional]', () => {
       const adjacencyType = AdjacencyType.Bidirectional;
       expect(tree.addAdjacency(nodeA.id, nodeB.id, adjacencyType)).toBeTruthy();
-      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeTruthy();
+      expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBe(adjacencyType);
       expect(tree.removeAdjacency(nodeA.id, nodeB.id)).toBeTruthy();
       expect(tree.areAdjacent(nodeA.id, nodeB.id)).toBeFalsy();
     });
