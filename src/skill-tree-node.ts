@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 export default class SkillTreeNode {
   // public readonly fields
@@ -15,7 +15,7 @@ export default class SkillTreeNode {
   }
 
   // private get and settable fields
-  private _skillPoints: number = 0;
+  private _skillPoints = 0;
 
   // SkillPoints
   get skillPoints() {

@@ -1,18 +1,41 @@
 {
   "name": "skill-tree",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "jest",
-    "coverage": "jest --collect-coverage",
-    "build": "tsc"
-  },
+  "version": "0.0.0",
   "keywords": [],
   "author": "Bastian Nispel",
-  "license": "ISC",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "coverage": "jest --coverage",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
+    "format": "npx prettier --write '**/*.{js,jsx,ts,tsx}'",
+    "prepare": "husky install"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
   "devDependencies": {
     "@types/jest": "^27.0.3",
     "@types/uuid": "^8.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/parser": "^5.5.0",
+    "eslint": "^8.3.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^25.3.0",
+    "husky": "^7.0.4",
     "jest": "^27.4.3",
+    "prettier": "^2.5.0",
     "ts-jest": "^27.0.7",
     "typescript": "^4.5.2"
   },
