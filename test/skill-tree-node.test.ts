@@ -6,11 +6,6 @@ beforeEach(() => {
   node = new SkillTreeNode('Intelligence', 3);
 });
 
-test('create a skill tree node', () => {
-  expect(node.name).toBe('Intelligence');
-  expect(node.maxSkillPoints).toBe(3);
-});
-
 describe('set skillPoints', () => {
   test('set skillPoints = maxSkillPoints', () => {
     node.skillPoints = 3;

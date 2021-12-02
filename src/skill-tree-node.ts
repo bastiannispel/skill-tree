@@ -5,17 +5,15 @@ export default class SkillTreeNode {
   readonly id: string;
   readonly name: string;
   readonly maxSkillPoints: number;
-  //   prerequisites: SkillTreeNode[];
-  //   adjacentSkills: SkillTreeNode[];
+
+  // private get and settable fields
+  private _skillPoints = 0;
 
   constructor(name: string, maxSkillPoints: number) {
     this.id = uuidv4();
     this.name = name;
     this.maxSkillPoints = maxSkillPoints;
   }
-
-  // private get and settable fields
-  private _skillPoints = 0;
 
   // SkillPoints
   get skillPoints() {
