@@ -1,11 +1,11 @@
-import SkillTree from "../src/skill-tree";
-import SkillTreeNode from "../src/skill-tree-node";
+// import SkillTree from "../src/skill-tree";
+// import SkillTreeNode from "../src/skill-tree-node";
 
-let tree: SkillTree;
+// let tree: SkillTree;
 
-beforeEach(() => {
-  const nodes = [new SkillTreeNode("Intelligence", 3)];
-  tree = new SkillTree(nodes);
-});
+// beforeEach(() => {
+//   const nodes = [new SkillTreeNode("Intelligence", 3)];
+//   tree = new SkillTree(nodes);
+// });
 
-test("create a skill tree node", () => {});
+// test("create a skill tree node", () => {});

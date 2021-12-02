@@ -15,7 +15,7 @@ export default class SkillTreeNode {
   }
 
   // private get and settable fields
-  private _skillPoints: number = 0;
+  private _skillPoints = 0;
 
   // SkillPoints
   get skillPoints() {
