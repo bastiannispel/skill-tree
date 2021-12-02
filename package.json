@@ -1,18 +1,22 @@
 {
   "name": "skill-tree",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "keywords": [],
+  "author": "Bastian Nispel",
+  "license": "MIT",
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "coverage": "jest --collect-coverage",
+    "coverage": "jest --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
     "format": "npx prettier --write '**/*.{js,jsx,ts,tsx}'",
     "prepare": "husky install"
   },
-  "keywords": [],
-  "author": "Bastian Nispel",
-  "license": "ISC",
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
   "devDependencies": {
     "@types/jest": "^27.0.3",
     "@types/uuid": "^8.3.3",
