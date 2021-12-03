@@ -1,5 +1,9 @@
 import { SkillTree } from '../src/skill-tree';
-import { SkillTreeNode, AdjacencyType } from '../src/skill-tree-node';
+import {
+  SkillTreeNode,
+  AdjacencyType,
+  skillFactory
+} from '../src/skill-tree-node';
 
 let tree: SkillTree;
 
@@ -7,33 +11,48 @@ beforeEach(() => {
   tree = new SkillTree(1);
 });
 
+describe('CONSTRUCTOR', () => {
+  test('maxSkillPoints skills', () => {
+    const skillA = skillFactory();
+    const skillB = skillFactory();
+    tree = new SkillTree(3, [skillA, skillB]);
+    expect(tree.maxSkillPoints).toBe(3);
+    expect(tree.nodes).toHaveLength(2);
+  });
+  test('maxSkillPoints', () => {
+    tree = new SkillTree(3);
+    expect(tree.maxSkillPoints).toBe(3);
+    expect(tree.nodes).toHaveLength(0);
+  });
+});
+
 describe('NODES', () => {
+  const skill = skillFactory();
+
   test('create node', () => {
-    tree.createNode({});
+    const node = tree.createNode(skill);
+    expect(tree.nodes).toContain(node);
   });
 
   describe('get node', () => {
     test('get node [existing]', () => {
-      const node = new SkillTreeNode(tree, '', 0);
-      expect(tree.addNode(node)).not.toBeNull();
+      const node = tree.createNode(skill);
       expect(tree.getNode(node.id)).toBe(node);
     });
     test('get node [non-existing ]', () => {
-      const node = new SkillTreeNode(tree, '', 0);
-      expect(tree.getNode(node.id)).toBeNull();
+      expect(tree.getNode('invalidId')).toBeNull();
     });
   });
 
   describe('remove node', () => {
     test('remove node [existing]', () => {
-      const node = new SkillTreeNode(tree, '', 0);
-      expect(tree.addNode(node)).toBeTruthy();
+      const node = tree.createNode(skill);
+      expect(tree.nodes).toHaveLength(1);
       expect(tree.removeNode(node.id)).toBeTruthy();
       expect(tree.nodes).toHaveLength(0);
     });
     test('remove node [non-existing]', () => {
-      const node = new SkillTreeNode(tree, '', 0);
-      expect(tree.removeNode(node.id)).toBeFalsy();
+      expect(tree.removeNode('invalidId')).toBeFalsy();
       expect(tree.nodes).toHaveLength(0);
     });
   });
@@ -44,9 +63,9 @@ describe('ADJACENT', () => {
   let nodeB: SkillTreeNode;
 
   beforeEach(() => {
-    nodeA = new SkillTreeNode(tree, 'A', 2);
-    nodeB = new SkillTreeNode(tree, 'B', 3);
-    tree = new SkillTree([nodeA, nodeB], 0);
+    tree = new SkillTree(0);
+    nodeA = tree.createNode(skillFactory('A', 3, 2));
+    nodeB = tree.createNode(skillFactory('B', 2, 1));
   });
 
   describe('are adjacent', () => {

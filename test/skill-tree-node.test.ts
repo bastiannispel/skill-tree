@@ -55,11 +55,8 @@ describe('SKILLPOINTS', () => {
 
 describe('ADJACENT', () => {
   test('set adjacent', () => {
-    const node = tree.createNode({
-      name: 'Strength',
-      maxSkillPoints: 3,
-      skillPoints: 2
-    });
+    const skill = skillFactory('Strength', 3, 2);
+    const node = tree.createNode(skill);
     node.adjacent = [node.id];
     expect(node.adjacent).toHaveLength(1);
     expect(node.adjacent).toContain(node.id);
