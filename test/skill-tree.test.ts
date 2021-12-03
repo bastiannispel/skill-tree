@@ -12,14 +12,14 @@ beforeEach(() => {
 });
 
 describe('CONSTRUCTOR', () => {
-  test('maxSkillPoints & skills', () => {
-    tree = new SkillTree([skillFactory(), skillFactory()]);
-    expect(tree.maxTotalSkillPoints).toBe(3);
+  test('maxSP & skills', () => {
+    tree = new SkillTree([skillFactory('', 3, 0), skillFactory('', 3, 0)]);
+    expect(tree.maxTotalSkillPoints).toBe(6);
     expect(tree.nodes).toHaveLength(2);
   });
-  test('maxSkillPoints', () => {
+  test('maxSP', () => {
     tree = new SkillTree();
-    expect(tree.maxTotalSkillPoints).toBe(3);
+    expect(tree.maxTotalSkillPoints).toBe(0);
     expect(tree.nodes).toHaveLength(0);
   });
 });
@@ -33,23 +33,23 @@ describe('NODES', () => {
   });
 
   describe('get node', () => {
-    test('get node [existing]', () => {
+    test('existing', () => {
       const node = tree.createNode(skill);
       expect(tree.getNode(node.id)).toBe(node);
     });
-    test('get node [non-existing ]', () => {
+    test('non-existing', () => {
       expect(tree.getNode('invalidId')).toBeNull();
     });
   });
 
   describe('remove node', () => {
-    test('remove node [existing]', () => {
+    test('existing', () => {
       const node = tree.createNode(skill);
       expect(tree.nodes).toHaveLength(1);
       expect(tree.removeNode(node.id)).toBeTruthy();
       expect(tree.nodes).toHaveLength(0);
     });
-    test('remove node [non-existing]', () => {
+    test('non-existing', () => {
       expect(tree.removeNode('invalidId')).toBeFalsy();
       expect(tree.nodes).toHaveLength(0);
     });
@@ -57,23 +57,29 @@ describe('NODES', () => {
 });
 
 describe('SKILLPOINTS', () => {
-  test('get amount of skill points spent', () => {
+  beforeEach(() => {
     tree.createNode(skillFactory('', 3, 2));
     tree.createNode(skillFactory('', 3, 3));
+  });
+
+  test('get amount of skill points spent', () => {
     expect(tree.skillPointsSpent).toBe(5);
   });
 
   describe('set availableSkillPoints', () => {
-    test('set availableSkillPoints = maxSP=3 & SPspent=0', () => {
-      expect(tree.skillPointsSpent).toBe(0);
+    test('= maxSP', () => {
       tree.availableSkillPoints = tree.maxTotalSkillPoints;
-      expect(tree.availableSkillPoints).toBe(tree.maxTotalSkillPoints);
+      expect(tree.availableSkillPoints).toBe(
+        tree.maxTotalSkillPoints - tree.skillPointsSpent
+      );
     });
-    test('set availableSkillPoints = maxSP=3 & SPspent=2', () => {
-      expect(tree.skillPointsSpent).toBe(0);
-      tree.createNode(skillFactory('', 3, 2));
-      tree.availableSkillPoints = tree.maxTotalSkillPoints;
-      expect(tree.availableSkillPoints).toBe(tree.maxTotalSkillPoints);
+    test('> maxSP', () => {
+      tree.availableSkillPoints = tree.maxTotalSkillPoints + 5;
+      expect(tree.availableSkillPoints).toBe(1);
+    });
+    test('< 0', () => {
+      tree.availableSkillPoints = -3;
+      expect(tree.availableSkillPoints).toBe(0);
     });
   });
 });

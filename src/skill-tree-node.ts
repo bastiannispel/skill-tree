@@ -59,7 +59,7 @@ export class SkillTreeNode implements Skill, TreeNode {
       this._skillPoints = value > maxSettable ? maxSettable : value;
     }
 
-    this.tree.availableSkillPoints -= oldSP - this.maxSkillPoints;
+    this.tree.availableSkillPoints -= this._skillPoints - oldSP;
   }
 
   constructor(skillTree: SkillTree, skill: Skill) {
@@ -67,7 +67,7 @@ export class SkillTreeNode implements Skill, TreeNode {
     this.tree = skillTree;
     this.name = skill.name;
     this.maxSkillPoints = skill.maxSkillPoints;
-    this.skillPoints = skill.skillPoints;
+    this._skillPoints = skill.skillPoints;
     this.adjacent = [];
   }
 

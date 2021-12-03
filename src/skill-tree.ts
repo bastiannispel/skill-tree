@@ -24,11 +24,13 @@ export class SkillTree {
     return this._availableSkillPoints;
   }
   set availableSkillPoints(value: number) {
-    const maxSettable = this.maxTotalSkillPoints - this.skillPointsSpent;
-    if (value < maxSettable) {
+    const maxAvailable = this.maxTotalSkillPoints - this.skillPointsSpent;
+    if (value < 0) {
+      this._availableSkillPoints = 0;
+    } else if (value < maxAvailable) {
       this._availableSkillPoints = value;
     } else {
-      this._availableSkillPoints = maxSettable;
+      this._availableSkillPoints = maxAvailable;
     }
   }
 
