@@ -1,14 +1,25 @@
 import { SkillTreeNode, AdjacencyType } from './skill-tree-node';
 
-// type HashedTreeNodes = { [id: string]: SkillTreeNode };
-
 export enum GraphType {
   Directed,
   Undirected
 }
 
 export class SkillTree {
-  // private get and settable fields
+  readonly maxTotalSkillPoints: number;
+
+  // Available Skill Points
+  private _availableSkillPoints = 0;
+  get availableSkillPoints() {
+    return this._availableSkillPoints;
+  }
+  set availableSkillPoints(value: number) {
+    if (value < this.maxTotalSkillPoints) {
+      this._availableSkillPoints = value;
+    }
+  }
+
+  // Skill Tree Node Array
   private _nodes: SkillTreeNode[];
   get nodes() {
     return this._nodes;
@@ -17,11 +28,13 @@ export class SkillTree {
     this._nodes = value;
   }
 
-  constructor(nodes: SkillTreeNode[]) {
+  // Constructor
+  constructor(nodes: SkillTreeNode[], maxTotalSkillPoints: number) {
     this._nodes = nodes;
+    this.maxTotalSkillPoints = maxTotalSkillPoints;
   }
 
-  // SkillTreeNode
+  // SkillTreeNode Methods
   getNode(id: string): SkillTreeNode | null {
     const node = this._nodes.find((x) => x.id === id);
     return node ? node : null;
@@ -43,6 +56,12 @@ export class SkillTree {
     return false;
   }
 
+  // SkillPoint Methods
+  getSkillPointsSpent(): number {
+    return this._nodes.reduce((a, b) => a + b.skillPoints, 0);
+  }
+
+  // Ajacency Methods
   areAdjacent(
     a: string | SkillTreeNode,
     b: string | SkillTreeNode
@@ -66,7 +85,6 @@ export class SkillTree {
     return false;
   }
 
-  // Adjacent
   addAdjacency(
     idA: string,
     idB: string,

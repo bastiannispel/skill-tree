@@ -4,7 +4,7 @@ import { SkillTreeNode, AdjacencyType } from '../src/skill-tree-node';
 let tree: SkillTree;
 
 beforeEach(() => {
-  tree = new SkillTree([]);
+  tree = new SkillTree([], 1);
 });
 
 describe('NODES', () => {
