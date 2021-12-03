@@ -1,9 +1,13 @@
-import { SkillTreeNode } from '../src/skill-tree-node';
+import { SkillTree } from '../src/skill-tree';
+import { SkillTreeNode, skillFactory } from '../src/skill-tree-node';
 
+let tree: SkillTree;
 let node: SkillTreeNode;
 
 beforeEach(() => {
-  node = new SkillTreeNode('Intelligence', 3);
+  tree = new SkillTree(3);
+  const skill = skillFactory('Intelligence', 3, 2);
+  node = tree.createNode(skill);
 });
 
 describe('SKILLPOINTS', () => {
@@ -51,7 +55,11 @@ describe('SKILLPOINTS', () => {
 
 describe('ADJACENT', () => {
   test('set adjacent', () => {
-    const node = new SkillTreeNode('', 2);
+    const node = tree.createNode({
+      name: 'Strength',
+      maxSkillPoints: 3,
+      skillPoints: 2
+    });
     node.adjacent = [node.id];
     expect(node.adjacent).toHaveLength(1);
     expect(node.adjacent).toContain(node.id);

@@ -1,3 +1,4 @@
+import { SkillTree } from './skill-tree';
 import { v4 as uuidv4 } from 'uuid';
 
 export enum AdjacencyType {
@@ -5,11 +6,39 @@ export enum AdjacencyType {
   Unidirectional
 }
 
-export class SkillTreeNode {
+export interface TreeNode {
+  readonly id: string;
+  readonly skillTree: SkillTree;
+  adjacent: string[];
+}
+
+export interface Skill {
+  readonly name: string;
+  readonly maxSkillPoints: number;
+  skillPoints: number;
+}
+
+export function skillFactory(
+  name?: string,
+  maxSkillPoints?: number,
+  skillPoints?: number
+): Skill {
+  return {
+    name: name || '',
+    maxSkillPoints: maxSkillPoints || 3,
+    skillPoints: skillPoints || 0
+  };
+}
+
+export class SkillTreeNode implements Skill, TreeNode {
   // public readonly fields
   readonly id: string;
   readonly name: string;
   readonly maxSkillPoints: number;
+  readonly skillTree: SkillTree;
+
+  // public fields
+  adjacent: string[];
 
   // skillpoints
   private _skillPoints = 0;
@@ -26,19 +55,13 @@ export class SkillTreeNode {
     }
   }
 
-  // adjacent
-  private _adjacent: string[] = [];
-  get adjacent() {
-    return this._adjacent;
-  }
-  set adjacent(value: string[]) {
-    this._adjacent = value;
-  }
-
-  constructor(name: string, maxSkillPoints: number) {
+  constructor(skillTree: SkillTree, skill: Skill) {
     this.id = uuidv4();
-    this.name = name;
-    this.maxSkillPoints = maxSkillPoints;
+    this.skillTree = skillTree;
+    this.name = skill.name;
+    this.maxSkillPoints = skill.maxSkillPoints;
+    this.skillPoints = skill.skillPoints;
+    this.adjacent = [];
   }
 
   addSkillPoint(): boolean {

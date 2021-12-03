@@ -1,4 +1,4 @@
-import { SkillTreeNode, AdjacencyType } from './skill-tree-node';
+import { SkillTreeNode, Skill, AdjacencyType } from './skill-tree-node';
 
 export enum GraphType {
   Directed,
@@ -6,7 +6,8 @@ export enum GraphType {
 }
 
 export class SkillTree {
-  readonly maxTotalSkillPoints: number;
+  readonly nodes: SkillTreeNode[] = [];
+  readonly maxSkillPoints: number;
 
   // Available Skill Points
   private _availableSkillPoints = 0;
@@ -14,43 +15,33 @@ export class SkillTree {
     return this._availableSkillPoints;
   }
   set availableSkillPoints(value: number) {
-    if (value < this.maxTotalSkillPoints) {
+    if (value < this.maxSkillPoints) {
       this._availableSkillPoints = value;
     }
   }
 
-  // Skill Tree Node Array
-  private _nodes: SkillTreeNode[];
-  get nodes() {
-    return this._nodes;
-  }
-  set nodes(value: SkillTreeNode[]) {
-    this._nodes = value;
-  }
-
   // Constructor
-  constructor(nodes: SkillTreeNode[], maxTotalSkillPoints: number) {
-    this._nodes = nodes;
-    this.maxTotalSkillPoints = maxTotalSkillPoints;
+  constructor(maxSkillPoints: number, skills?: Skill[]) {
+    this.maxSkillPoints = maxSkillPoints;
+    if (skills) {
+      this.nodes = skills.map((skill) => new SkillTreeNode(this, skill));
+    }
   }
 
   // SkillTreeNode Methods
   getNode(id: string): SkillTreeNode | null {
-    const node = this._nodes.find((x) => x.id === id);
+    const node = this.nodes.find((x) => x.id === id);
     return node ? node : null;
   }
-
-  addNode(node: SkillTreeNode): boolean {
-    if (this._nodes.find((x) => x.id === node.id)) {
-      return false;
-    }
+  createNode(skill: Skill): SkillTreeNode {
+    const node = new SkillTreeNode(this, skill);
     this.nodes.push(node);
-    return true;
+    return node;
   }
   removeNode(id: string): boolean {
-    const index = this._nodes.findIndex((x) => x.id === id);
+    const index = this.nodes.findIndex((x) => x.id === id);
     if (index > -1) {
-      this._nodes.splice(index, 1);
+      this.nodes.splice(index, 1);
       return true;
     }
     return false;
@@ -58,7 +49,7 @@ export class SkillTree {
 
   // SkillPoint Methods
   getSkillPointsSpent(): number {
-    return this._nodes.reduce((a, b) => a + b.skillPoints, 0);
+    return this.nodes.reduce((a, b) => a + b.skillPoints, 0);
   }
 
   // Ajacency Methods
