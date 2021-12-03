@@ -7,7 +7,16 @@ export enum GraphType {
 
 export class SkillTree {
   readonly nodes: SkillTreeNode[] = [];
-  readonly maxSkillPoints: number;
+
+  // Max Global Skillpoints
+  get maxTotalSkillPoints() {
+    return this.nodes.reduce((a, b) => a + b.maxSkillPoints, 0);
+  }
+
+  // Max Global Skillpoints
+  get skillPointsSpent() {
+    return this.nodes.reduce((a, b) => a + b.skillPoints, 0);
+  }
 
   // Available Skill Points
   private _availableSkillPoints = 0;
@@ -15,14 +24,16 @@ export class SkillTree {
     return this._availableSkillPoints;
   }
   set availableSkillPoints(value: number) {
-    if (value < this.maxSkillPoints) {
+    const maxSettable = this.maxTotalSkillPoints - this.skillPointsSpent;
+    if (value < maxSettable) {
       this._availableSkillPoints = value;
+    } else {
+      this._availableSkillPoints = maxSettable;
     }
   }
 
   // Constructor
-  constructor(maxSkillPoints: number, skills?: Skill[]) {
-    this.maxSkillPoints = maxSkillPoints;
+  constructor(skills?: Skill[]) {
     if (skills) {
       this.nodes = skills.map((skill) => new SkillTreeNode(this, skill));
     }
@@ -47,9 +58,22 @@ export class SkillTree {
     return false;
   }
 
-  // SkillPoint Methods
-  getSkillPointsSpent(): number {
-    return this.nodes.reduce((a, b) => a + b.skillPoints, 0);
+  addAvailableSkillPoint(): boolean {
+    if (
+      this._availableSkillPoints <
+      this.maxTotalSkillPoints - this.skillPointsSpent
+    ) {
+      this._availableSkillPoints += 1;
+      return true;
+    }
+    return false;
+  }
+  removeAvailableSkillPoint(): boolean {
+    if (this._availableSkillPoints > 0) {
+      this._availableSkillPoints -= 1;
+      return true;
+    }
+    return false;
   }
 
   // Ajacency Methods

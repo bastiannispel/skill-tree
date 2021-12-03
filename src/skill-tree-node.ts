@@ -8,7 +8,7 @@ export enum AdjacencyType {
 
 export interface TreeNode {
   readonly id: string;
-  readonly skillTree: SkillTree;
+  readonly tree: SkillTree;
   adjacent: string[];
 }
 
@@ -35,7 +35,7 @@ export class SkillTreeNode implements Skill, TreeNode {
   readonly id: string;
   readonly name: string;
   readonly maxSkillPoints: number;
-  readonly skillTree: SkillTree;
+  readonly tree: SkillTree;
 
   // public fields
   adjacent: string[];
@@ -46,18 +46,25 @@ export class SkillTreeNode implements Skill, TreeNode {
     return this._skillPoints;
   }
   set skillPoints(value: number) {
+    const availableSP = this.tree.availableSkillPoints;
+    const maxSettable = this.skillPoints + availableSP;
+
+    const oldSP = this._skillPoints;
     if (value > this.maxSkillPoints) {
-      this._skillPoints = this.maxSkillPoints;
+      this._skillPoints =
+        maxSettable < this.maxSkillPoints ? maxSettable : this.maxSkillPoints;
     } else if (value < 0) {
       this._skillPoints = 0;
     } else {
-      this._skillPoints = value;
+      this._skillPoints = value > maxSettable ? maxSettable : value;
     }
+
+    this.tree.availableSkillPoints -= oldSP - this.maxSkillPoints;
   }
 
   constructor(skillTree: SkillTree, skill: Skill) {
     this.id = uuidv4();
-    this.skillTree = skillTree;
+    this.tree = skillTree;
     this.name = skill.name;
     this.maxSkillPoints = skill.maxSkillPoints;
     this.skillPoints = skill.skillPoints;

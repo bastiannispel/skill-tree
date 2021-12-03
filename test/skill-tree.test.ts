@@ -8,20 +8,18 @@ import {
 let tree: SkillTree;
 
 beforeEach(() => {
-  tree = new SkillTree(1);
+  tree = new SkillTree();
 });
 
 describe('CONSTRUCTOR', () => {
-  test('maxSkillPoints skills', () => {
-    const skillA = skillFactory();
-    const skillB = skillFactory();
-    tree = new SkillTree(3, [skillA, skillB]);
-    expect(tree.maxSkillPoints).toBe(3);
+  test('maxSkillPoints & skills', () => {
+    tree = new SkillTree([skillFactory(), skillFactory()]);
+    expect(tree.maxTotalSkillPoints).toBe(3);
     expect(tree.nodes).toHaveLength(2);
   });
   test('maxSkillPoints', () => {
-    tree = new SkillTree(3);
-    expect(tree.maxSkillPoints).toBe(3);
+    tree = new SkillTree();
+    expect(tree.maxTotalSkillPoints).toBe(3);
     expect(tree.nodes).toHaveLength(0);
   });
 });
@@ -58,12 +56,34 @@ describe('NODES', () => {
   });
 });
 
+describe('SKILLPOINTS', () => {
+  test('get amount of skill points spent', () => {
+    tree.createNode(skillFactory('', 3, 2));
+    tree.createNode(skillFactory('', 3, 3));
+    expect(tree.skillPointsSpent).toBe(5);
+  });
+
+  describe('set availableSkillPoints', () => {
+    test('set availableSkillPoints = maxSP=3 & SPspent=0', () => {
+      expect(tree.skillPointsSpent).toBe(0);
+      tree.availableSkillPoints = tree.maxTotalSkillPoints;
+      expect(tree.availableSkillPoints).toBe(tree.maxTotalSkillPoints);
+    });
+    test('set availableSkillPoints = maxSP=3 & SPspent=2', () => {
+      expect(tree.skillPointsSpent).toBe(0);
+      tree.createNode(skillFactory('', 3, 2));
+      tree.availableSkillPoints = tree.maxTotalSkillPoints;
+      expect(tree.availableSkillPoints).toBe(tree.maxTotalSkillPoints);
+    });
+  });
+});
+
 describe('ADJACENT', () => {
   let nodeA: SkillTreeNode;
   let nodeB: SkillTreeNode;
 
   beforeEach(() => {
-    tree = new SkillTree(0);
+    tree = new SkillTree();
     nodeA = tree.createNode(skillFactory('A', 3, 2));
     nodeB = tree.createNode(skillFactory('B', 2, 1));
   });

@@ -5,24 +5,36 @@ let tree: SkillTree;
 let node: SkillTreeNode;
 
 beforeEach(() => {
-  tree = new SkillTree(3);
-  const skill = skillFactory('Intelligence', 3, 2);
-  node = tree.createNode(skill);
+  tree = new SkillTree();
 });
 
 describe('SKILLPOINTS', () => {
-  describe('set skillPoints', () => {
-    test('set skillPoints = maxSkillPoints', () => {
-      node.skillPoints = 3;
+  beforeEach(() => {
+    node = tree.createNode(skillFactory('Int', 3, 2));
+  });
+
+  describe('set skillPoints = availableSP', () => {
+    beforeEach(() => {
+      tree.availableSkillPoints = node.maxSkillPoints;
+    });
+
+    test('set skillPoints = maxSP', () => {
+      expect(tree.availableSkillPoints).toBe(node.maxSkillPoints);
+      node.skillPoints = node.maxSkillPoints;
+      expect(tree.availableSkillPoints).toBe(0);
       expect(node.skillPoints).toBe(3);
     });
-    test('set skillPoints > maxSkillPoints', () => {
+    test('set skillPoints > maxSP', () => {
+      expect(tree.availableSkillPoints).toBe(node.maxSkillPoints);
       node.skillPoints = node.maxSkillPoints + 2;
+      expect(tree.availableSkillPoints).toBe(0);
       expect(node.skillPoints).toBe(node.maxSkillPoints);
     });
     test('set skillPoints < 0', () => {
+      expect(tree.availableSkillPoints).toBe(node.maxSkillPoints);
       node.skillPoints = -1;
       expect(node.skillPoints).toBe(0);
+      expect(node.skillPoints).toBe(node.maxSkillPoints);
     });
   });
 
@@ -54,11 +66,17 @@ describe('SKILLPOINTS', () => {
 });
 
 describe('ADJACENT', () => {
+  let nodeA: SkillTreeNode;
+  let nodeB: SkillTreeNode;
+
+  beforeEach(() => {
+    nodeA = tree.createNode(skillFactory());
+    nodeB = tree.createNode(skillFactory());
+  });
+
   test('set adjacent', () => {
-    const skill = skillFactory('Strength', 3, 2);
-    const node = tree.createNode(skill);
-    node.adjacent = [node.id];
-    expect(node.adjacent).toHaveLength(1);
-    expect(node.adjacent).toContain(node.id);
+    nodeA.adjacent = [nodeB.id];
+    expect(nodeA.adjacent).toHaveLength(1);
+    expect(nodeA.adjacent).toContain(nodeB.id);
   });
 });
