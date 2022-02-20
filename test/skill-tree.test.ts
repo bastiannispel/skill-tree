@@ -82,6 +82,32 @@ describe('SKILLPOINTS', () => {
       expect(tree.availableSkillPoints).toBe(0);
     });
   });
+
+  describe('add availableSkillPoint', () => {
+    test('< maxTotalSP - SPspent', () => {
+      expect(tree.addAvailableSkillPoint()).toBeTruthy();
+      expect(tree.availableSkillPoints).toBe(1);
+    });
+    test('= maxTotalSP', () => {
+      tree.availableSkillPoints = tree.maxTotalSkillPoints;
+      expect(tree.addAvailableSkillPoint()).toBeFalsy();
+      const maxAvailable = tree.maxTotalSkillPoints - tree.skillPointsSpent;
+      expect(tree.availableSkillPoints).toBe(maxAvailable);
+    });
+  });
+
+  describe('remove availableSkillPoint', () => {
+    test('> 0', () => {
+      tree.availableSkillPoints = 1;
+      expect(tree.removeAvailableSkillPoint()).toBeTruthy();
+      expect(tree.availableSkillPoints).toBe(0);
+    });
+    test('= 0', () => {
+      tree.availableSkillPoints = 0;
+      expect(tree.removeAvailableSkillPoint()).toBeFalsy();
+      expect(tree.availableSkillPoints).toBe(0);
+    });
+  });
 });
 
 describe('ADJACENT', () => {

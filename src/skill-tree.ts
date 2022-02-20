@@ -36,7 +36,7 @@ export class SkillTree {
     const maxAvailable = this.maxTotalSkillPoints - this.skillPointsSpent;
     if (value < 0) {
       this._availableSkillPoints = 0;
-    } else if (value < maxAvailable) {
+    } else if (value <= maxAvailable) {
       this._availableSkillPoints = value;
     } else {
       this._availableSkillPoints = maxAvailable;
