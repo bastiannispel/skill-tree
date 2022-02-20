@@ -7,22 +7,31 @@ export enum GraphType {
 
 export class SkillTree {
   readonly nodes: SkillTreeNode[] = [];
+  private _availableSkillPoints = 0;
 
-  // Max Global Skillpoints
-  get maxTotalSkillPoints() {
+  /**
+   @returns Maximum of total Skillpoints
+   **/
+  get maxTotalSkillPoints(): number {
     return this.nodes.reduce((a, b) => a + b.maxSkillPoints, 0);
   }
 
-  // Max Global Skillpoints
-  get skillPointsSpent() {
+  /**
+   @returns Amount of skillponts spent
+   **/
+  get skillPointsSpent(): number {
     return this.nodes.reduce((a, b) => a + b.skillPoints, 0);
   }
 
-  // Available Skill Points
-  private _availableSkillPoints = 0;
-  get availableSkillPoints() {
+  /**
+   @returns Get available skillpoints
+   **/
+  get availableSkillPoints(): number {
     return this._availableSkillPoints;
   }
+  /**
+   @param value Value of available skillpoints to set    
+   **/
   set availableSkillPoints(value: number) {
     const maxAvailable = this.maxTotalSkillPoints - this.skillPointsSpent;
     if (value < 0) {
@@ -34,23 +43,36 @@ export class SkillTree {
     }
   }
 
-  // Constructor
+  /**
+    @param skills Array of skill data
+  **/
   constructor(skills?: Skill[]) {
     if (skills) {
       this.nodes = skills.map((skill) => new SkillTreeNode(this, skill));
     }
   }
 
-  // SkillTreeNode Methods
+  /**
+   @param id ID of a skill-tree-node
+   @returns SkillTreeNode | null
+   **/
   getNode(id: string): SkillTreeNode | null {
     const node = this.nodes.find((x) => x.id === id);
     return node ? node : null;
   }
+  /**
+   @param skill Skill data
+   @returns Pushes the created node to the array and return it
+   **/
   createNode(skill: Skill): SkillTreeNode {
     const node = new SkillTreeNode(this, skill);
     this.nodes.push(node);
     return node;
   }
+  /**
+   @param id ID of a skill-tree-node
+   @returns true if the node has been removed successfully, otherwise false
+   **/
   removeNode(id: string): boolean {
     const index = this.nodes.findIndex((x) => x.id === id);
     if (index > -1) {
@@ -60,6 +82,9 @@ export class SkillTree {
     return false;
   }
 
+  /**   
+   @returns true if a skillpoint can be added, otherwise false
+   **/
   addAvailableSkillPoint(): boolean {
     if (
       this._availableSkillPoints <
@@ -70,6 +95,9 @@ export class SkillTree {
     }
     return false;
   }
+  /**   
+   @returns true if a skillpoint can be removed, otherwise false
+   **/
   removeAvailableSkillPoint(): boolean {
     if (this._availableSkillPoints > 0) {
       this._availableSkillPoints -= 1;
@@ -78,7 +106,11 @@ export class SkillTree {
     return false;
   }
 
-  // Ajacency Methods
+  /**   
+   @param a ID or skill-tree-node instance
+   @param b ID or skill-tree-node instance
+   @returns Adjacency type if there is a match, otherwise false
+   **/
   areAdjacent(
     a: string | SkillTreeNode,
     b: string | SkillTreeNode
@@ -102,6 +134,12 @@ export class SkillTree {
     return false;
   }
 
+  /**   
+   @param idA ID of a skill-tree-node instance
+   @param idB ID of a skill-tree-node instance
+   @param adjacencyType Type of adjaceny to add
+   @returns true if the adjacency has been set up correctly, oterwise false
+   **/
   addAdjacency(
     idA: string,
     idB: string,
@@ -129,6 +167,11 @@ export class SkillTree {
     }
   }
 
+  /**   
+   @param idA ID of a skill-tree-node instance
+   @param idB ID of a skill-tree-node instance
+   @returns true if the adjacency has been removed, oterwise false
+   **/
   removeAdjacency(idA: string, idB: string): boolean {
     const nodeA = this.getNode(idA);
     const nodeB = this.getNode(idB);

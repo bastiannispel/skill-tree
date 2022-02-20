@@ -18,6 +18,12 @@ export interface Skill {
   skillPoints: number;
 }
 
+/**
+ @param name ID or skill-tree-node instance
+ @param maxSkillPoints ID or skill-tree-node instance
+ @param skillPoints ID or skill-tree-node instance
+ @returns Skill data
+**/
 export function skillFactory(
   name?: string,
   maxSkillPoints?: number,
@@ -42,9 +48,16 @@ export class SkillTreeNode implements Skill, TreeNode {
 
   // skillpoints
   private _skillPoints = 0;
+  /**
+    @returns Skill points currently set
+  **/
   get skillPoints() {
     return this._skillPoints;
   }
+  /**
+    @param value Skill points to set
+    @returns Skill points currently set
+  **/
   set skillPoints(value: number) {
     const availableSP = this.tree.availableSkillPoints;
     const maxSettable = this.skillPoints + availableSP;
@@ -62,6 +75,10 @@ export class SkillTreeNode implements Skill, TreeNode {
     this.tree.availableSkillPoints -= this._skillPoints - oldSP;
   }
 
+  /**
+    @param skillTree Skill tree instance
+    @param skill Skill data
+  **/
   constructor(skillTree: SkillTree, skill: Skill) {
     this.id = uuidv4();
     this.tree = skillTree;
@@ -71,6 +88,9 @@ export class SkillTreeNode implements Skill, TreeNode {
     this.adjacent = [];
   }
 
+  /**
+    @returns true if skillpoint has been added sucessfully, otherwise false
+  **/
   addSkillPoint(): boolean {
     if (this.skillPoints === this.maxSkillPoints) {
       return false;
@@ -79,6 +99,9 @@ export class SkillTreeNode implements Skill, TreeNode {
       return true;
     }
   }
+  /**
+    @returns true if skillpoint has been removed sucessfully, otherwise false
+  **/
   removeSkillPoint(): boolean {
     if (this.skillPoints === 0) {
       return false;
