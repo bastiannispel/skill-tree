@@ -2,7 +2,7 @@ import { SkillTreeNode } from './skill-tree-node';
 
 type HashedBooleans = { [id: string]: boolean };
 
-export function bfsTraversalIterative(
+export default function bfsTraversalIterative(
   nodes: SkillTreeNode[],
   startNodeId: string
 ): string[] {

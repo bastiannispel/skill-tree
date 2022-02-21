@@ -1,5 +1,5 @@
-import { SkillTree } from './skill-tree';
 import { v4 as uuidv4 } from 'uuid';
+import type { SkillTree } from './skill-tree';
 
 export enum AdjacencyType {
   Bidirectional,
@@ -23,7 +23,7 @@ export interface Skill {
  @param maxSkillPoints ID or skill-tree-node instance
  @param skillPoints ID or skill-tree-node instance
  @returns Skill data
-**/
+* */
 export function skillFactory(
   name?: string,
   maxSkillPoints?: number,
@@ -39,75 +39,79 @@ export function skillFactory(
 export class SkillTreeNode implements Skill, TreeNode {
   // public readonly fields
   readonly id: string;
+
   readonly name: string;
+
   readonly maxSkillPoints: number;
+
   readonly tree: SkillTree;
 
   // public fields
   adjacent: string[];
 
   // skillpoints
-  private _skillPoints = 0;
+  private skillpoints = 0;
+
   /**
     @returns Skill points currently set
-  **/
+  * */
   get skillPoints() {
-    return this._skillPoints;
+    return this.skillpoints;
   }
+
   /**
     @param value Skill points to set
     @returns Skill points currently set
-  **/
+  * */
   set skillPoints(value: number) {
     const availableSP = this.tree.availableSkillPoints;
     const maxSettable = this.skillPoints + availableSP;
 
-    const oldSP = this._skillPoints;
+    const oldSP = this.skillpoints;
     if (value > this.maxSkillPoints) {
-      this._skillPoints =
+      this.skillpoints =
         maxSettable < this.maxSkillPoints ? maxSettable : this.maxSkillPoints;
     } else if (value < 0) {
-      this._skillPoints = 0;
+      this.skillpoints = 0;
     } else {
-      this._skillPoints = value > maxSettable ? maxSettable : value;
+      this.skillpoints = value > maxSettable ? maxSettable : value;
     }
 
-    this.tree.availableSkillPoints -= this._skillPoints - oldSP;
+    this.tree.availableSkillPoints -= this.skillpoints - oldSP;
   }
 
   /**
     @param skillTree Skill tree instance
     @param skill Skill data
-  **/
+  * */
   constructor(skillTree: SkillTree, skill: Skill) {
     this.id = uuidv4();
     this.tree = skillTree;
     this.name = skill.name;
     this.maxSkillPoints = skill.maxSkillPoints;
-    this._skillPoints = skill.skillPoints;
+    this.skillpoints = skill.skillPoints;
     this.adjacent = [];
   }
 
   /**
     @returns true if skillpoint has been added sucessfully, otherwise false
-  **/
+  * */
   addSkillPoint(): boolean {
     if (this.skillPoints === this.maxSkillPoints) {
       return false;
-    } else {
-      this.skillPoints += 1;
-      return true;
     }
+    this.skillPoints += 1;
+    return true;
   }
+
   /**
     @returns true if skillpoint has been removed sucessfully, otherwise false
-  **/
+  * */
   removeSkillPoint(): boolean {
     if (this.skillPoints === 0) {
       return false;
-    } else {
-      this.skillPoints -= 1;
-      return true;
     }
+    this.skillPoints -= 1;
+    return true;
   }
 }

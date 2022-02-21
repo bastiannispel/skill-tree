@@ -1,5 +1,5 @@
-import { SkillTree } from '../src/skill-tree';
 import { SkillTreeNode, skillFactory } from '../src/skill-tree-node';
+import { SkillTree } from '../src/skill-tree';
 
 let tree: SkillTree;
 let node: SkillTreeNode;
