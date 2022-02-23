@@ -1,20 +1,28 @@
 {
   "name": "skill-tree",
-  "private": "true",
+  "author": "Bastian Nispel",
+  "license": "MIT",
+  "private": true,
   "version": "1.0.0",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "test": "lerna run test",
-    "new-version": "lerna version --conventional-commits --yes",
+    "start": "lerna run start --parallel",
+    "build": "lerna run build --parallel",
+    "test": "CI=true lerna run test --parallel",
+    "typecheck": "lerna run typecheck --parallel",
+    "lint": "lerna run lint --parallel",
+    "lint:fix": "lerna run lint:fix --parallel",
+    "prettier": "lerna run prettier --parallel",
+    "prettier:fix": "lerna run prettier:fix --parallel",
+    "coverage": "lerna run coverage --parallel",
     "diff": "lerna run diff",
-    "lint": "lerna run lint",
-    "prettier": "lerna run prettier",
-    "coverage": "lerna run coverage"
+    "clean": "lerna clean",
+    "clean:update": "lerna clean && lerna bootstrap",
+    "new-version": "lerna version --conventional-commits --yes"
   },
-  "author": "Bastian Nispel",
-  "license": "MIT",
+
   "devDependencies": {
     "lerna": "^4.0.0"
   }
