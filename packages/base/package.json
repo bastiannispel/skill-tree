@@ -4,7 +4,7 @@
   "keywords": [],
   "author": "Bastian Nispel",
   "license": "MIT",
-  "main": "src/index.ts",
+  "main": "./src/index.ts",
   "scripts": {
     "prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
     "prettier:fix": "prettier --write '**/*.{js,jsx,ts,tsx}'",

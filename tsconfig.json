@@ -25,6 +25,6 @@
   "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
   "references": [
     { "path": "./packages/base/tsconfig.build.json" },
-    { "path": "./packages/react" }
+    { "path": "./packages/react/" }
   ]
 }

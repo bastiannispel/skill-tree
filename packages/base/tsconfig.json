@@ -6,6 +6,6 @@
     "rootDir": ".",
     "emitDeclarationOnly": true
   },
-  "include": ["**/*.ts", "**/*.js"],
+  "include": ["src/**/*.ts", "__tests__**/*.js"],
   "exclude": ["dist", "coverage", "node_modules"]
 }

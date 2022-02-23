@@ -6,17 +6,17 @@ export enum AdjacencyType {
   Unidirectional,
 }
 
-export interface TreeNode {
+export type TreeNode = {
   readonly id: string;
   readonly tree: SkillTree;
   adjacent: string[];
-}
+};
 
-export interface Skill {
+export type Skill = {
   readonly name: string;
   readonly maxSkillPoints: number;
   skillPoints: number;
-}
+};
 
 /**
  @param name ID or skill-tree-node instance
@@ -80,17 +80,13 @@ export class SkillTreeNode implements Skill, TreeNode {
     this.tree.availableSkillPoints -= this.skillpoints - oldSP;
   }
 
-  /**
-    @param skillTree Skill tree instance
-    @param skill Skill data
-  * */
-  constructor(skillTree: SkillTree, skill: Skill) {
-    this.id = uuidv4();
-    this.tree = skillTree;
+  constructor(treeNode: TreeNode, skill: Skill) {
+    this.id = treeNode.id;
+    this.tree = treeNode.tree;
+    this.adjacent = treeNode.adjacent;
     this.name = skill.name;
     this.maxSkillPoints = skill.maxSkillPoints;
     this.skillpoints = skill.skillPoints;
-    this.adjacent = [];
   }
 
   /**
