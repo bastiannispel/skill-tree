@@ -1,55 +1,111 @@
 import { SkillTree } from '../src/skill-tree';
-import { SkillTreeNode, AdjacencyType } from '../src/skill-tree-node';
+import {
+  SkillTreeNode,
+  AdjacencyType,
+  skillFactory
+} from '../src/skill-tree-node';
 
 let tree: SkillTree;
 
 beforeEach(() => {
-  tree = new SkillTree([]);
+  tree = new SkillTree();
+});
+
+describe('CONSTRUCTOR', () => {
+  test('maxSP & skills', () => {
+    tree = new SkillTree([skillFactory('', 3, 0), skillFactory('', 3, 0)]);
+    expect(tree.maxTotalSkillPoints).toBe(6);
+    expect(tree.nodes).toHaveLength(2);
+  });
+  test('maxSP', () => {
+    tree = new SkillTree();
+    expect(tree.maxTotalSkillPoints).toBe(0);
+    expect(tree.nodes).toHaveLength(0);
+  });
 });
 
 describe('NODES', () => {
-  test('set nodes', () => {
-    tree.nodes = [new SkillTreeNode('', 2)];
-    expect(tree.nodes).toHaveLength(1);
-  });
+  const skill = skillFactory();
 
-  describe('add node', () => {
-    test('add node [new]', () => {
-      const node = new SkillTreeNode('', 0);
-      expect(tree.addNode(node)).toBeTruthy();
-      expect(tree.nodes).toHaveLength(1);
-    });
-    test('add node [existing]', () => {
-      const node = new SkillTreeNode('', 0);
-      expect(tree.addNode(node)).toBeTruthy();
-      expect(tree.addNode(node)).toBeFalsy();
-      expect(tree.nodes).toHaveLength(1);
-    });
+  test('create node', () => {
+    const node = tree.createNode(skill);
+    expect(tree.nodes).toContain(node);
   });
 
   describe('get node', () => {
-    test('get node [existing]', () => {
-      const node = new SkillTreeNode('', 0);
-      expect(tree.addNode(node)).not.toBeNull();
+    test('existing', () => {
+      const node = tree.createNode(skill);
       expect(tree.getNode(node.id)).toBe(node);
     });
-    test('get node [non-existing ]', () => {
-      const node = new SkillTreeNode('', 0);
-      expect(tree.getNode(node.id)).toBeNull();
+    test('non-existing', () => {
+      expect(tree.getNode('invalidId')).toBeNull();
     });
   });
 
   describe('remove node', () => {
-    test('remove node [existing]', () => {
-      const node = new SkillTreeNode('', 0);
-      expect(tree.addNode(node)).toBeTruthy();
+    test('existing', () => {
+      const node = tree.createNode(skill);
+      expect(tree.nodes).toHaveLength(1);
       expect(tree.removeNode(node.id)).toBeTruthy();
       expect(tree.nodes).toHaveLength(0);
     });
-    test('remove node [non-existing]', () => {
-      const node = new SkillTreeNode('', 0);
-      expect(tree.removeNode(node.id)).toBeFalsy();
+    test('non-existing', () => {
+      expect(tree.removeNode('invalidId')).toBeFalsy();
       expect(tree.nodes).toHaveLength(0);
+    });
+  });
+});
+
+describe('SKILLPOINTS', () => {
+  beforeEach(() => {
+    tree.createNode(skillFactory('', 3, 2));
+    tree.createNode(skillFactory('', 3, 3));
+  });
+
+  test('get amount of skill points spent', () => {
+    expect(tree.skillPointsSpent).toBe(5);
+  });
+
+  describe('set availableSkillPoints', () => {
+    test('= maxSP', () => {
+      tree.availableSkillPoints = tree.maxTotalSkillPoints;
+      expect(tree.availableSkillPoints).toBe(
+        tree.maxTotalSkillPoints - tree.skillPointsSpent
+      );
+    });
+    test('> maxSP', () => {
+      tree.availableSkillPoints = tree.maxTotalSkillPoints + 5;
+      expect(tree.availableSkillPoints).toBe(1);
+    });
+    test('< 0', () => {
+      tree.availableSkillPoints = -3;
+      expect(tree.availableSkillPoints).toBe(0);
+    });
+  });
+
+  describe('add availableSkillPoint', () => {
+    test('< maxTotalSP - SPspent', () => {
+      expect(tree.addAvailableSkillPoint()).toBeTruthy();
+      expect(tree.availableSkillPoints).toBe(1);
+    });
+    test('= maxTotalSP', () => {
+      tree.availableSkillPoints = tree.maxTotalSkillPoints;
+      expect(tree.addAvailableSkillPoint()).toBeFalsy();
+      const maxAvailable = tree.maxTotalSkillPoints - tree.skillPointsSpent;
+      expect(tree.availableSkillPoints).toBe(maxAvailable);
+    });
+  });
+
+  describe('remove availableSkillPoint', () => {
+    test('> 0', () => {
+      tree.availableSkillPoints = 1;
+      expect(tree.removeAvailableSkillPoint()).toBeTruthy();
+      expect(tree.availableSkillPoints).toBe(0);
+    });
+    test('= 0', () => {
+      tree.availableSkillPoints = 0;
+      expect(tree.removeAvailableSkillPoint()).toBeFalsy();
+      expect(tree.availableSkillPoints).toBe(0);
     });
   });
 });
@@ -59,9 +115,9 @@ describe('ADJACENT', () => {
   let nodeB: SkillTreeNode;
 
   beforeEach(() => {
-    nodeA = new SkillTreeNode('A', 2);
-    nodeB = new SkillTreeNode('B', 3);
-    tree = new SkillTree([nodeA, nodeB]);
+    tree = new SkillTree();
+    nodeA = tree.createNode(skillFactory('A', 3, 2));
+    nodeB = tree.createNode(skillFactory('B', 2, 1));
   });
 
   describe('are adjacent', () => {
