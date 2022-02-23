@@ -1,0 +1,10 @@
+{
+  "name": "@skill-tree/react",
+  "version": "1.0.0",
+  "author": "Bastian Nispel",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@skill-tree/base": "^1.0.0"
+  }
+}

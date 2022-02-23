@@ -3,7 +3,7 @@ import { SkillTreeNode, AdjacencyType } from './skill-tree-node';
 
 export enum GraphType {
   Directed,
-  Undirected
+  Undirected,
 }
 
 export class SkillTree {

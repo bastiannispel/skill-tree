@@ -2,7 +2,7 @@ import { SkillTree } from '../src/skill-tree';
 import {
   SkillTreeNode,
   AdjacencyType,
-  skillFactory
+  skillFactory,
 } from '../src/skill-tree-node';
 
 let tree: SkillTree;

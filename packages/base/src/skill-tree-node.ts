@@ -3,7 +3,7 @@ import type { SkillTree } from './skill-tree';
 
 export enum AdjacencyType {
   Bidirectional,
-  Unidirectional
+  Unidirectional,
 }
 
 export interface TreeNode {
@@ -32,7 +32,7 @@ export function skillFactory(
   return {
     name: name || '',
     maxSkillPoints: maxSkillPoints || 3,
-    skillPoints: skillPoints || 0
+    skillPoints: skillPoints || 0,
   };
 }
 

@@ -1,0 +1,6 @@
+{
+  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "../../.eslintrc"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
+}
