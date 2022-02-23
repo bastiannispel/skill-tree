@@ -1,49 +1,21 @@
 {
   "name": "skill-tree",
-  "version": "0.0.0",
-  "keywords": [],
+  "private": "true",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "lerna run test",
+    "new-version": "lerna version --conventional-commits --yes",
+    "diff": "lerna run diff",
+    "lint": "lerna run lint",
+    "prettier": "lerna run prettier",
+    "coverage": "lerna run coverage"
+  },
   "author": "Bastian Nispel",
   "license": "MIT",
-  "scripts": {
-    "test": "jest",
-    "build": "tsc",
-    "coverage": "jest --coverage",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
-    "format": "npx prettier --write '**/*.{js,jsx,ts,tsx}'",
-    "prepare": "husky install"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    }
-  },
   "devDependencies": {
-    "@types/jest": "^27.0.3",
-    "@types/uuid": "^8.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
-    "eslint": "^8.9.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^16.1.0",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^25.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.4",
-    "jest": "^27.4.3",
-    "prettier": "2.5.1",
-    "ts-jest": "^27.0.7",
-    "typescript": "^4.5.2"
-  },
-  "dependencies": {
-    "uuid": "^8.3.2"
+    "lerna": "^4.0.0"
   }
 }
