@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import type { SkillTree } from './skill-tree';
 
 export enum AdjacencyType {

@@ -1,8 +1,10 @@
 {
+  "root": true,
   "env": {
     "browser": true,
     "es6": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -17,6 +19,7 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
+    "import/no-unresolved": "error",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",

@@ -2,10 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "composite": true,
     "rootDir": ".",
+    "composite": true,
     "emitDeclarationOnly": true
   },
-  "include": ["src/**/*.ts", "__tests__**/*.js"],
+  "include": ["src/**/**.ts", "__tests__/**/**.ts"],
   "exclude": ["dist", "coverage", "node_modules"]
 }
