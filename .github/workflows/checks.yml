@@ -8,32 +8,32 @@ jobs:
   checks:
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:         
+          fetch-depth: 0
 
-    - name: Setup NodeJS v14
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14
+      - name: Setup NodeJS v14
+        uses: actions/setup-node@v2
+        with: 
+          node-version: 14      
 
-    - name: Install dependencies
-      run: |
-        yarn install --frozen-lockfile
-        npx lerna bootstrap
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx lerna bootstrap
 
-    - name: Run eslint
-      run: yarn run lint
+      - name: Run eslint
+        run: yarn run lint
 
-    - name: Run prettier
-      run: yarn run prettier
+      - name: Run prettier
+        run: yarn run prettier
 
-    - name: Run tests
-      run: npm run coverage
+      - name: Run tests
+        run: npm run coverage
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
