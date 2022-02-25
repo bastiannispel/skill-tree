@@ -17,24 +17,6 @@ export type Skill = {
   skillPoints: number;
 };
 
-/**
- @param name ID or skill-tree-node instance
- @param maxSkillPoints ID or skill-tree-node instance
- @param skillPoints ID or skill-tree-node instance
- @returns Skill data
-* */
-export function skillFactory(
-  name?: string,
-  maxSkillPoints?: number,
-  skillPoints?: number
-): Skill {
-  return {
-    name: name || '',
-    maxSkillPoints: maxSkillPoints || 3,
-    skillPoints: skillPoints || 0,
-  };
-}
-
 export class SkillTreeNode implements Skill, TreeNode {
   // public readonly fields
   readonly id: string;
@@ -81,16 +63,18 @@ export class SkillTreeNode implements Skill, TreeNode {
 
   constructor(
     id: string,
-    skillTree: SkillTree,
-    skill: Skill,
-    adjacent: string[] = []
+    tree: SkillTree,
+    maxSkillPoints: number,
+    skillPoints: number,
+    name?: string,
+    adjacent?: string[]
   ) {
     this.id = id;
-    this.tree = skillTree;
-    this.adjacent = adjacent;
-    this.name = skill.name;
-    this.maxSkillPoints = skill.maxSkillPoints;
-    this.skillpoints = skill.skillPoints;
+    this.tree = tree;
+    this.adjacent = adjacent || [];
+    this.name = name || '';
+    this.maxSkillPoints = maxSkillPoints;
+    this.skillpoints = skillPoints;
   }
 
   /**

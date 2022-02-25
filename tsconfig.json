@@ -23,8 +23,5 @@
     "composite": true
   },
   "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
-  "references": [
-    { "path": "./packages/base/tsconfig.build.json" },
-    { "path": "./packages/react/" }
-  ]
+  "references": [{ "path": "./packages/base/tsconfig.build.json" }]
 }

@@ -1,4 +1,3 @@
-import type { Skill } from './skill-tree-node';
 import { SkillTreeNode, AdjacencyType } from './skill-tree-node';
 
 export enum GraphType {
@@ -56,11 +55,23 @@ export class SkillTree {
   }
 
   /**
-   @param skill Skill data
    @returns Pushes the created node to the array and return it
    * */
-  createNode(id: string, skill: Skill, adjacent: string[] = []): SkillTreeNode {
-    const node = new SkillTreeNode(id, this, skill, adjacent);
+  addNode(
+    id: string,
+    maxSkillPoints: number,
+    skillPoints: number,
+    name?: string,
+    adjacent?: string[]
+  ): SkillTreeNode {
+    const node = new SkillTreeNode(
+      id,
+      this,
+      maxSkillPoints,
+      skillPoints,
+      name,
+      adjacent
+    );
     this.nodes.push(node);
     return node;
   }

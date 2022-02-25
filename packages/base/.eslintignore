@@ -3,4 +3,4 @@
 **/coverage/**
 **/node_modules/**
 **/jest.config.js
-**/eslintrc.js
+**/.eslintrc.js
