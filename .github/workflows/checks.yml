@@ -11,13 +11,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:         
+        with:
           fetch-depth: 0
 
       - name: Setup NodeJS v14
         uses: actions/setup-node@v2
-        with: 
-          node-version: 14      
+        with:
+          node-version: 14
 
       - name: Install dependencies
         run: |
@@ -35,5 +35,5 @@ jobs:
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
