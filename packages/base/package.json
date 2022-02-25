@@ -1,0 +1,25 @@
+{
+  "name": "@skill-tree/base",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "Bastian Nispel",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "scripts": {
+    "prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
+    "prettier:fix": "prettier --write '**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "yarn lint --fix",
+    "verify": "run-p prettier lint",
+    "verify:fix": "yarn prettier:fix && yarn lint:fix",
+    "build": "tsc --build tsconfig.build.json",
+    "coverage": "jest --coverage",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.3"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}

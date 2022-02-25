@@ -1,14 +1,27 @@
 {
-  "include": ["./src/**/*", "./test/**/*"],
-  "exclude": ["node_modules"],
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": ".",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": true,
     "module": "commonjs",
-    "rootDir": ".",
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
     "strict": true,
-    "skipLibCheck": true
-  }
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "composite": true
+  },
+  "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
+  "references": [{ "path": "./packages/base/tsconfig.build.json" }]
 }

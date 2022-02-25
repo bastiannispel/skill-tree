@@ -1,9 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
 import { SkillTree } from '../src/skill-tree';
-import {
-  SkillTreeNode,
-  AdjacencyType,
-  skillFactory
-} from '../src/skill-tree-node';
+import { SkillTreeNode, AdjacencyType } from '../src/skill-tree-node';
 
 let tree: SkillTree;
 
@@ -13,7 +10,9 @@ beforeEach(() => {
 
 describe('CONSTRUCTOR', () => {
   test('maxSP & skills', () => {
-    tree = new SkillTree([skillFactory('', 3, 0), skillFactory('', 3, 0)]);
+    tree = new SkillTree();
+    tree.addNode(uuidv4(), 3, 0);
+    tree.addNode(uuidv4(), 3, 0);
     expect(tree.maxTotalSkillPoints).toBe(6);
     expect(tree.nodes).toHaveLength(2);
   });
@@ -25,16 +24,14 @@ describe('CONSTRUCTOR', () => {
 });
 
 describe('NODES', () => {
-  const skill = skillFactory();
-
   test('create node', () => {
-    const node = tree.createNode(skill);
+    const node = tree.addNode(uuidv4(), 3, 0);
     expect(tree.nodes).toContain(node);
   });
 
   describe('get node', () => {
     test('existing', () => {
-      const node = tree.createNode(skill);
+      const node = tree.addNode(uuidv4(), 3, 0);
       expect(tree.getNode(node.id)).toBe(node);
     });
     test('non-existing', () => {
@@ -44,7 +41,7 @@ describe('NODES', () => {
 
   describe('remove node', () => {
     test('existing', () => {
-      const node = tree.createNode(skill);
+      const node = tree.addNode(uuidv4(), 3, 0);
       expect(tree.nodes).toHaveLength(1);
       expect(tree.removeNode(node.id)).toBeTruthy();
       expect(tree.nodes).toHaveLength(0);
@@ -58,8 +55,8 @@ describe('NODES', () => {
 
 describe('SKILLPOINTS', () => {
   beforeEach(() => {
-    tree.createNode(skillFactory('', 3, 2));
-    tree.createNode(skillFactory('', 3, 3));
+    tree.addNode(uuidv4(), 3, 2);
+    tree.addNode(uuidv4(), 3, 3);
   });
 
   test('get amount of skill points spent', () => {
@@ -116,8 +113,8 @@ describe('ADJACENT', () => {
 
   beforeEach(() => {
     tree = new SkillTree();
-    nodeA = tree.createNode(skillFactory('A', 3, 2));
-    nodeB = tree.createNode(skillFactory('B', 2, 1));
+    nodeA = tree.addNode(uuidv4(), 3, 2);
+    nodeB = tree.addNode(uuidv4(), 2, 1);
   });
 
   describe('are adjacent', () => {
