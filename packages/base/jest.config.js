@@ -1,18 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-import base from 'skill-tree/jest.config.base.js';
-import tsconfig from './tsconfig.json';
+const base = require('../../jest.config.base.js');
 
-const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
-
-export default {
+module.exports = {
   ...base,
   name: '@skill-tree/base',
   displayName: 'skill-tree/base',
-  moduleNameMapper,
-  verbose: true,
   preset: 'ts-jest',
   testEnvironment: 'node',
   coverageThreshold: {

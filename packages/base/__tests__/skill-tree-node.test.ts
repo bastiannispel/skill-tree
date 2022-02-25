@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { SkillTreeNode, skillFactory } from '../src/skill-tree-node';
 import { SkillTree } from '../src/skill-tree';
 
@@ -10,7 +11,7 @@ beforeEach(() => {
 
 describe('SKILLPOINTS', () => {
   beforeEach(() => {
-    node = tree.createNode(skillFactory('Int', 3, 2));
+    node = tree.createNode(uuidv4(), skillFactory('Int', 3, 2));
   });
 
   describe('skillPoints = availableSP', () => {
@@ -77,8 +78,8 @@ describe('ADJACENT', () => {
   let nodeB: SkillTreeNode;
 
   beforeEach(() => {
-    nodeA = tree.createNode(skillFactory());
-    nodeB = tree.createNode(skillFactory());
+    nodeA = tree.createNode(uuidv4(), skillFactory());
+    nodeB = tree.createNode(uuidv4(), skillFactory());
   });
 
   test('set adjacent', () => {
